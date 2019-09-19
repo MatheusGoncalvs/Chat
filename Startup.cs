@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Chat.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Chat.Hubs;
 
 namespace Chat
 {
@@ -41,6 +42,7 @@ namespace Chat
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSignalR();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -71,6 +73,11 @@ namespace Chat
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("Home/Index");
             });
         }
     }

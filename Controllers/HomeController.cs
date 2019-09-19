@@ -5,13 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Chat.Models;
+using Microsoft.AspNetCore.Identity;
+using Chat.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<AppUser> _UserManager;
+
+        public HomeController(ApplicationDbContext dbContext,UserManager<AppUser> _userManager)
         {
+            this.dbContext = dbContext;
+            _UserManager = _userManager;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var currentUser = await _UserManager.GetUserAsync(User);
+            var messages = await dbContext.Messages.ToListAsync();
             return View();
         }
 
