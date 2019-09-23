@@ -14,6 +14,7 @@ using Chat.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Chat.Hubs;
+using Chat.Models;
 
 namespace Chat
 {
@@ -39,7 +40,7 @@ namespace Chat
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<AppUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSignalR();
@@ -77,7 +78,7 @@ namespace Chat
 
             app.UseSignalR(route =>
             {
-                route.MapHub<ChatHub>("Home/Index");
+                route.MapHub<ChatHub>("/Home/Index");
             });
         }
     }
