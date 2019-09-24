@@ -22,5 +22,10 @@ namespace Chat.Models
         public string UserID { get; set; }
 
         public virtual AppUser Sender { get; set; }
+
+        public Message()
+        {
+            When = DateTime.Now;
+        }
     }
 }

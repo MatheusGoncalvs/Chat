@@ -40,12 +40,14 @@ namespace Chat
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<AppUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddSignalR();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,17 +70,20 @@ namespace Chat
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+            /*
+             Failed to start the connection. SyntaxError: Unexpected token < in JSON at position 0
+             Erro solucionado colocando o app.UseSignalR acima da declaração app.UseMvc()
+             */
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/Home/Index");
+            });
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            app.UseSignalR(route =>
-            {
-                route.MapHub<ChatHub>("/Home/Index");
             });
         }
     }

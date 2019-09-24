@@ -34,7 +34,7 @@ namespace Chat.Controllers
             }
             
             var messages = await dbContext.Messages.ToListAsync();
-            return View();
+            return View(messages);
         }
 
         public async Task<IActionResult> Create(Message message)
