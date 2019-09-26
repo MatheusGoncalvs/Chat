@@ -5,8 +5,8 @@
 connection.on('receiveMessage', addMessageToChat);
 
 connection.start()
-    .catch(err => {
-        console.error(err.message);
+    .catch(error => {
+        console.error(error.message);
     });
 
 function sendMessageToHub(message) {

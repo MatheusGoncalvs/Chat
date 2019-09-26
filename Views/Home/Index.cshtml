@@ -4,73 +4,228 @@
     var userName = User.Identity.Name;
 }
 
-<div class="jumbotron bg-light">
-    <h2 class="text-center text-primary">
-        <i class="fab fa-facebook-messenger"></i>&nbsp; Public Talk
-    </h2>
-    <div class="row">
-        <div class="col-md-12" id="chat">
-            @if (Model != null)
-            {
-                @foreach (var message in Model.OrderBy(m => m.When))
-                {
-                    string containerClass, timePosition, textAlign, contColor, offset;
-                    if (userName == message.UserName)
-                    {
-                        containerClass = "container darker";
-                        timePosition = "time-right text-light";
-                        textAlign = "text-right text-white";
-                        contColor = "bg-primary";
-                        offset = "col-md-6 offset-md-6";
-                    }
-                    else
-                    {
-                        containerClass = "container";
-                        timePosition = "time-left";
-                        textAlign = "text-left";
-                        contColor = "bg-light";
-                        offset = "";
-                    }
-                    <div class="row">
-                        <div class="@offset">
-                            <div class="@containerClass @contColor">
-                                <p class="sender @textAlign">@message.UserName</p>
-                                <p class="@textAlign">@message.Text</p>
-                                <span class="@timePosition">@message.When.ToString("M/dd/yyyy hh:MM tt")</span>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Chat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tramites</a>
+                    <div class="quantos-tramites-icon tramites">
+                        <h2>0</h2>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <div class="group-nav-bar">
+                            <div class="img-user">
+
                             </div>
+                            <h2>Antenor Azevedo</h2>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <div class="row center">
+
+        <div class="col-md-4 center">
+            <div class="block-chat">
+                <div class="content-chat">
+                    <div class="chat-head">
+                        <i class="far fa-comment-alt"></i>
+                        <span class="font-h1">CHAT</span>
+                        <input class="btn btn-success" type="submit" value="ENCERRAR">
+                        <input class="btn btn-danger" type="submit" value="CANCELAR">
+                    </div>
+                    <div class="body-chat">
+                        <div id="chat">
+                            @if (Model != null)
+                            {
+                                @foreach (var message in Model.OrderBy(m => m.When))
+                                {
+                                    if (userName == message.UserName)
+                                    {
+                                        <div class="msgs-chat">
+                                            <div class="img-perfil">
+                                                <img src="img/zenga.jpg">
+                                            </div>
+                                            <div class="content-msg-chat">
+                                                <div class="head">
+                                                    <h2 class="user"><strong>@message.UserName</strong></h2>
+                                                    <h3 class="horario">@message.When.ToString()</h3>
+                                                </div>
+                                                <div class="body">
+                                                    <h2>@message.Text</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="msgs-chat">
+                                            <div class="img-perfil">
+                                                <img src="">
+                                            </div>
+                                            <div class="content-msg-chat">
+                                                <div class="head">
+                                                    <h2 class="user"><strong>@message.UserName</strong></h2>
+                                                    <h3 class="horario">@message.When.ToString()</h3>
+                                                </div>
+                                                <div class="body">
+                                                    <h2>@message.Text</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
                         </div>
                     </div>
-                }
-            }
-        </div>
-        <div class="col-md-12">
-            <form asp-action="Create"
-                  data-ajax-begin="clearInputField" data-ajax-complete=""
-                  data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
-                  data-ajax="true" data-ajax-method="POST">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <input name="Text" class="form-control" id="messageText" />
+                    <form asp-action="Create"
+                          data-ajax-begin="clearInputField" data-ajax-complete=""
+                          data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
+                          data-ajax="true" data-ajax-method="POST">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="footer-chat">
+                            <input id="messageText" name="Text" type="text">
+                            <input id="submitButton" class="btn btn-default" type="submit" value="ENVIAR">
+                        </div>
+                        <input type="hidden" value="@userName" name="username" />
+                    </form>
+
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Send" class="btn btn-dark" id="submitButton" />
+            </div>
+
+            <div class="col-md-4 center">
+                <div class="block-chat">
+                    <div class="content-chat">
+                        <div class="chat-head">
+                            <i class="far fa-clock"></i>
+                            <span class="font-h1">FILA DE ESPERA - <strong>2</strong></span>
+                        </div>
+                        <div class="body-fila">
+                            <div class="legenda-atendimento clearfix">
+                                <h2><strong>Legenda: </strong></h2>
+                                <div class="info-legenda info-legenda-green" title="Disponivel"></div>
+                                <div class="info-legenda info-legenda-red" title="Indisponivel"></div>
+                                <div class="info-legenda info-legenda-yellow" title="Em atendimento"></div>
+                                <div class="info-legenda info-legenda-blue" title="Em atendimento com outro atendente"></div>
+                                <div class="info-legenda info-legenda-gray" title="Habilitado"></div>
+                                <div class="info-legenda info-legenda-purple" title="Habilitado para outro atendente"></div>
+                            </div>
+
+                            <div class="bloco-chamado">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h2>[100264] Sr. Noz, Cristais joias</h2>
+                                        <h2><strong>(20/09/2019 as 10:23)</strong> - Antenor Azevedo</h2>
+                                        <h2><strong>Produto: </strong>ATS</h2>
+                                        <h2><strong>Descricao: </strong>Nao estou conseguindo emitir NFCe.</h2>
+                                    </div>
+                                    <div class="col-2 fila-descricao-icon">
+                                        <a href="#0" data-toggle="modal" data-target="#modalExemplo">
+                                            <i class="far fa-list-alt"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 fila-fone">
+                                        <a href="">
+                                            <i class="fas fa-phone-square"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="bloco-chamado">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h2>[100264] Sr. Noz, Cristais joias</h2>
+                                        <h2><strong>(20/09/2019 as 10:23)</strong> - Antenor Azevedo</h2>
+                                        <h2><strong>Produto: </strong>ATS</h2>
+                                        <h2><strong>Descricao: </strong>Nao estou conseguindo emitir NFCe.</h2>
+                                    </div>
+                                    <div class="col-2 fila-descricao-icon">
+                                        <a href="#0" data-toggle="modal" data-target="#modalExemplo">
+                                            <i class="far fa-list-alt"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 fila-fone">
+                                        <a href="">
+                                            <i class="fas fa-phone-square"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="footer-chat">
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title" id="exampleModalLabel">Descricao completa do chamado</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">[100264]</th>
+                                                        <th scope="col">Sr. Noz, Cristais joias</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Descricao: </th>
+                                                        <td>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM Modal -->
+                        </div>
+                    </div>
                 </div>
-                <input type="hidden" value="@userName" name="username" />
-            </form>
+            </div>
         </div>
+
     </div>
-</div>
 
-@if (User.Identity.IsAuthenticated)
-{
-    <script>
-    const userName = "@ViewBag.CurrentUserName";
-    </script>
-}
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>
+            const userName = "@ViewBag.CurrentUserName";
+        </script>
+    }
 
-@section scripts{
-    <script src="~/signalr/signalr.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/js/chat.js"></script>
-    <script src="~/js/signalrReqHandler.js"></script>
-}
+    @section scripts{
+        <script src="~/signalr/signalr.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/chat.js"></script>
+        <script src="~/js/signalrReqHandler.js"></script>
+    }

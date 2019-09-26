@@ -30,35 +30,55 @@ function clearInputField() {
 function sendMessage() {
     let text = messagesQueue.shift() || "";
     if (text.trim() === "") return;
-    
+
     let when = new Date();
     let message = new Message(username, text);
     sendMessageToHub(message);
 }
 
 function addMessageToChat(message) {
-    let isCurrentUserMessage = message.userName === username;
 
-    let container = document.createElement('div');
-    container.className = isCurrentUserMessage ? "container darker" : "container";
+    let msgs_chat = document.createElement('div');
+    msgs_chat.className = "msgs-chat";
 
-    let sender = document.createElement('p');
-    sender.className = "sender";
-    sender.innerHTML = message.userName;
-    let text = document.createElement('p');
-    text.innerHTML = message.text;
+    let img_perfil = document.createElement('div');
+    img_perfil.className = "img-perfil";
 
-    let when = document.createElement('span');
-    when.className = isCurrentUserMessage ? "time-left" : "time-right";
+    let content_msg = document.createElement('div');
+    content_msg.className = "content-msg-chat";
+
+    let content_head = document.createElement('div');
+    content_head.className = "head";
+
+    let userMessage = document.createElement('h2');
+    userMessage.className = "user";
+    userMessage.innerHTML = message.userName;
+
+    let when = document.createElement('h3');
+    when.className = "horario";
     var currentdate = new Date();
-    when.innerHTML = 
-        (currentdate.getMonth() + 1) + "/"
-        + currentdate.getDate() + "/"
+    when.innerHTML =
+        currentdate.getDate() + "/"
+        + (currentdate.getMonth() + 1) + "/"
         + currentdate.getFullYear() + " "
         + currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
 
-    container.appendChild(sender);
-    container.appendChild(text);
-    container.appendChild(when);
-    chat.appendChild(container);
+    let content_body = document.createElement('div');
+    content_body.className = "body";
+
+    let MessageText = document.createElement('h2');
+    MessageText.innerHTML = message.text;
+
+    msgs_chat.appendChild(img_perfil);
+    msgs_chat.appendChild(content_msg);
+
+    content_msg.appendChild(content_head);
+
+    content_head.appendChild(userMessage);
+    content_head.appendChild(when);
+
+    content_msg.appendChild(content_body);
+    content_body.appendChild(MessageText);
+
+    chat.appendChild(msgs_chat);
 }
