@@ -12,6 +12,10 @@ a, a:hover, a:visited {
     color: #333 !important;
 }
 
+main {
+    min-height: 500px;
+}
+
 .borda {
     border: 1px solid red;
 }
@@ -235,7 +239,7 @@ font-h1 {
 
 .fila-fone i {
     font-size: 40px;
-    color: #00cc99;
+    background-color: transparent;
 }
 
 .fila-descricao-icon i {
@@ -246,14 +250,17 @@ font-h1 {
 
 .info-legenda-green {
     background-color: #00cc99;
+    color: #00cc99;
 }
 
 .info-legenda-red {
     background-color: red;
+    color: red;
 }
 
 .info-legenda-yellow {
     background-color: yellow;
+    color: yellow;
 }
 
 .info-legenda-blue {

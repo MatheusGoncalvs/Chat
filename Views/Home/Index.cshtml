@@ -4,224 +4,225 @@
     var userName = User.Identity.Name;
 }
 
-<div class="row center">
-    <div class="col-md-6 center">
-        <div class="block-chat">
-            <div class="content-chat">
-                <div class="chat-head">
-                    <i class="far fa-comment-alt"></i>
-                    <span class="font-h1">CHAT</span>
-                    <a href="#0" data-toggle="modal" data-target="#confirmarCancelamento" class="btn btn-danger">
-                        <h2>CANCELAR</h2>
-                    </a>
-                    <a href="#0" data-toggle="modal" data-target="#confirmarEncerramento" class="btn btn-success">
-                        <h2>ENCERRAR</h2>
-                    </a>
-                </div>
-                <div class="body-chat">
-                    <div id="chat">
-                        @if (Model != null)
-                        {
-                            @foreach (var message in Model.OrderBy(m => m.When))
+<main>
+    <div class="row center">
+        <div class="col-md-6 center">
+            <div class="block-chat">
+                <div class="content-chat">
+                    <div class="chat-head">
+                        <i class="far fa-comment-alt"></i>
+                        <span class="font-h1">CHAT</span>
+                        <a href="#0" data-toggle="modal" data-target="#confirmarCancelamento" class="btn btn-danger">
+                            <h2>CANCELAR</h2>
+                        </a>
+                        <a href="#0" data-toggle="modal" data-target="#confirmarEncerramento" class="btn btn-success">
+                            <h2>ENCERRAR</h2>
+                        </a>
+                    </div>
+                    <div class="body-chat">
+                        <div id="chat">
+                            @if (Model != null)
                             {
-                                if (userName == message.UserName)
+                                @foreach (var message in Model.OrderBy(m => m.When))
                                 {
-                                    <div class="msgs-chat">
-                                        <div class="img-perfil">
-                                            <img src="img/zenga.jpg">
-                                        </div>
-                                        <div class="content-msg-chat">
-                                            <div class="head">
-                                                <h2 class="user"><strong>@message.UserName</strong></h2>
-                                                <h3 class="horario">@message.When.ToString()</h3>
+                                    if (userName == message.UserName)
+                                    {
+                                        <div class="msgs-chat">
+                                            <div class="img-perfil">
+                                                <img src="img/zenga.jpg">
                                             </div>
-                                            <div class="body">
-                                                <h2>@message.Text</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="msgs-chat">
-                                        <div class="img-perfil">
-                                            <img src="">
-                                        </div>
-                                        <div class="content-msg-chat">
-                                            <div class="head">
-                                                <h2 class="user"><strong>@message.UserName</strong></h2>
-                                                <h3 class="horario">@message.When.ToString()</h3>
-                                            </div>
-                                            <div class="body">
-                                                <h2>@message.Text</h2>
+                                            <div class="content-msg-chat">
+                                                <div class="head">
+                                                    <h2 class="user"><strong>@message.UserName</strong></h2>
+                                                    <h3 class="horario">@message.When.ToString()</h3>
+                                                </div>
+                                                <div class="body">
+                                                    <h2>@message.Text</h2>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="msgs-chat">
+                                            <div class="img-perfil">
+                                                <img src="">
+                                            </div>
+                                            <div class="content-msg-chat">
+                                                <div class="head">
+                                                    <h2 class="user"><strong>@message.UserName</strong></h2>
+                                                    <h3 class="horario">@message.When.ToString()</h3>
+                                                </div>
+                                                <div class="body">
+                                                    <h2>@message.Text</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 }
                             }
-                        }
-                    </div>
-                </div>
-                <form asp-action="Create"
-                      data-ajax-begin="clearInputField" data-ajax-complete=""
-                      data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
-                      data-ajax="true" data-ajax-method="POST">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="footer-chat">
-                        <input id="messageText" name="Text" type="text">
-                        <input class="btn btn-success" type="submit" value="ENVIAR" id="submitButton">
-                    </div>
-                    <input type="hidden" value="@userName" name="username" />
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 center">
-        <div class="block-chat">
-            <div class="content-chat">
-                <div class="chat-head">
-                    <i class="far fa-clock"></i>
-                    <span class="font-h1">FILA DE ESPERA - <strong>2</strong></span>
-                </div>
-                <div class="body-fila">
-                    <div class="legenda-atendimento clearfix">
-                        <h2><strong>Legenda: </strong></h2>
-                        <div class="info-legenda info-legenda-green" title="Disponivel"></div>
-                        <div class="info-legenda info-legenda-red" title="Indisponivel"></div>
-                        <div class="info-legenda info-legenda-yellow" title="Em atendimento"></div>
-                        <div class="info-legenda info-legenda-blue" title="Em atendimento com outro atendente"></div>
-                        <div class="info-legenda info-legenda-gray" title="Habilitado"></div>
-                        <div class="info-legenda info-legenda-purple" title="Habilitado para outro atendente"></div>
-                    </div>
-                    <div class="bloco-chamado">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2>[100264] Sr. Noz, Cristais joias</h2>
-                                <h2><strong>(20/09/2019 as 10:23)</strong> - Antenor Azevedo</h2>
-                                <h2><strong>Produto: </strong>ATS</h2>
-                                <h2><strong>Descricao: </strong>Nao estou conseguindo emitir NFCe.</h2>
-                            </div>
-                            <div class="col-4 fila-descricao-icon">
-                                <a href="#0" data-toggle="modal" data-target="#modalExemplo">
-                                    <i class="far fa-list-alt"></i>
-                                </a>
-                                <div class="fila-fone">
-                                    <a href="">
-                                        <i class="fas fa-phone-square"></i>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="bloco-chamado">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2>[100264] Sr. Noz, Cristais joias</h2>
-                                <h2><strong>(20/09/2019 as 10:23)</strong> - Antenor Azevedo</h2>
-                                <h2><strong>Produto: </strong>ATS</h2>
-                                <h2><strong>Descricao: </strong>Nao estou conseguindo emitir NFCe.</h2>
-                            </div>
-                            <div class="col-4 fila-descricao-icon">
-                                <a href="#0" data-toggle="modal" data-target="#modalExemplo">
-                                    <i class="far fa-list-alt"></i>
-                                </a>
-                                <div class="fila-fone">
-                                    <a href="">
-                                        <i class="fas fa-phone-square"></i>
-                                    </a>
-                                </div>
-                            </div>
+                    <form asp-action="Create"
+                          data-ajax-begin="clearInputField" data-ajax-complete=""
+                          data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
+                          data-ajax="true" data-ajax-method="POST">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="footer-chat">
+                            <input id="messageText" name="Text" type="text">
+                            <input class="btn btn-success" type="submit" value="ENVIAR" id="submitButton">
                         </div>
-                    </div>
-                    <div class="footer-chat">
-
-                        <!-- Modal Confirmacao de cancelamento -->
-
-                        <div class="modal fade" id="confirmarCancelamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="modal-title" id="exampleModalLabel">Confirmacao de cancelamento</h2>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h1><strong>Deseja cancelar o atendimento?</strong></h1>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">NAO</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">SIM</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- FIM Modal -->
-                        <!-- Modal Confirmacao de encerramento -->
-
-                        <div class="modal fade" id="confirmarEncerramento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="modal-title" id="exampleModalLabel">Confirmacao de encerramento</h2>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h1><strong>Deseja encerrar o atendimento?</strong></h1>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">NAO</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">SIM</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- FIM Modal -->
-                        <!-- Modal Descricao completa -->
-
-                        <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="modal-title" id="exampleModalLabel">Descricao completa do chamado</h2>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th scope="col">[100264]</th>
-                                                    <th scope="col">Sr. Noz, Cristais joias</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Descricao: </th>
-                                                    <td>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- FIM Modal -->
-
-                    </div>
+                        <input type="hidden" value="@userName" name="username" />
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-md-6 center">
+            <div class="block-chat">
+                <div class="content-chat">
+                    <div class="chat-head">
+                        <i class="far fa-clock"></i>
+                        <span class="font-h1">FILA DE ESPERA - <strong>2</strong></span>
+                    </div>
+                    <div class="body-fila">
+                        <div class="legenda-atendimento clearfix">
+                            <h2><strong>Legenda: </strong></h2>
+                            <div class="info-legenda info-legenda-green" title="Disponivel"></div>
+                            <div class="info-legenda info-legenda-red" title="Indisponivel"></div>
+                            <div class="info-legenda info-legenda-yellow" title="Em atendimento"></div>
+                            <div class="info-legenda info-legenda-blue" title="Em atendimento com outro atendente"></div>
+                            <div class="info-legenda info-legenda-gray" title="Habilitado"></div>
+                            <div class="info-legenda info-legenda-purple" title="Habilitado para outro atendente"></div>
+                        </div>
+                        <div class="bloco-chamado">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h2><strong>[100264] Sr. Noz, Cristais joias</strong></h2>
+                                    <h2><strong>(20/09/2019 as 10:23)</strong> - Antenor Azevedo</h2>
+                                    <h2><strong>Produto: </strong>ATS</h2>
+                                    <h2><strong>Descricao: </strong>Nao estou conseguindo emitir NFCe.</h2>
+                                </div>
+                                <div class="col-4 fila-descricao-icon">
+                                    <a href="#0" data-toggle="modal" data-target="#modalExemplo">
+                                        <i class="far fa-list-alt"></i>
+                                    </a>
+                                    <div class="fila-fone">
+                                        <a href="">
+                                            <i class="fas fa-phone-square  info-legenda-yellow"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bloco-chamado">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h2><strong>[100264] Sr. Joel, Senhor das Peças</strong></h2>
+                                    <h2><strong>(20/09/2019 as 10:23)</strong> - Sem atendente</h2>
+                                    <h2><strong>Produto: </strong>ATS</h2>
+                                    <h2><strong>Descricao: </strong>Bloquear alteração em nota de entrada.</h2>
+                                </div>
+                                <div class="col-4 fila-descricao-icon">
+                                    <a href="#0" data-toggle="modal" data-target="#modalExemplo">
+                                        <i class="far fa-list-alt"></i>
+                                    </a>
+                                    <div class="fila-fone">
+                                        <a href="">
+                                            <i class="fas fa-phone-square info-legenda-green"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-chat">
 
-</div>
+                            <!-- Modal Confirmacao de cancelamento -->
+
+                            <div class="modal fade" id="confirmarCancelamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title" id="exampleModalLabel">Confirmacao de cancelamento</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h1><strong>Deseja cancelar o atendimento?</strong></h1>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">NAO</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">SIM</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM Modal -->
+                            <!-- Modal Confirmacao de encerramento -->
+
+                            <div class="modal fade" id="confirmarEncerramento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title" id="exampleModalLabel">Confirmacao de encerramento</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h1><strong>Deseja encerrar o atendimento?</strong></h1>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">NAO</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">SIM</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM Modal -->
+                            <!-- Modal Descricao completa -->
+
+                            <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title" id="exampleModalLabel">Descricao completa do chamado</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">[100264]</th>
+                                                        <th scope="col">Sr. Noz, Cristais joias</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Descricao: </th>
+                                                        <td>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FIM Modal -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 @if (User.Identity.IsAuthenticated)
 {
